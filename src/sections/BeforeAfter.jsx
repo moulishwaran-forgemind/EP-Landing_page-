@@ -4,24 +4,24 @@ import './BeforeAfter.css'
 
 const transformations = [
   {
-    before: { icon: '😰', text: 'Hesitate to speak in public', tag: 'Nervous' },
-    after:  { icon: '🎤', text: 'Speak fluently & clearly',     tag: 'Confident' },
+    before: { img: '/assets/transformations/before-1.png', text: 'Hesitate to speak in public',    tag: 'Nervous' },
+    after:  { img: '/assets/transformations/after-1.png',  text: 'Speak fluently & clearly',        tag: 'Confident' },
   },
   {
-    before: { icon: '😓', text: 'Fear of making mistakes',       tag: 'Anxious' },
-    after:  { icon: '💪', text: 'Learn from mistakes boldly',    tag: 'Fearless' },
+    before: { img: '/assets/transformations/before-2.png', text: 'Fear of making mistakes',        tag: 'Anxious' },
+    after:  { img: '/assets/transformations/after-2.png',  text: 'Learn from mistakes boldly',     tag: 'Fearless' },
   },
   {
-    before: { icon: '😶', text: 'Silent in meetings',            tag: 'Unheard' },
-    after:  { icon: '🏆', text: 'Lead meetings & presentations', tag: 'Leader' },
+    before: { img: '/assets/transformations/before-3.png', text: 'Silent in meetings',             tag: 'Unheard' },
+    after:  { img: '/assets/transformations/after-3.png',  text: 'Lead meetings & presentations',   tag: 'Leader' },
   },
   {
-    before: { icon: '📖', text: 'Struggle with vocabulary',      tag: 'Limited' },
-    after:  { icon: '📚', text: 'Rich vocabulary & expressions', tag: 'Eloquent' },
+    before: { img: '/assets/transformations/before-4.png', text: 'Struggle with vocabulary',       tag: 'Limited' },
+    after:  { img: '/assets/transformations/after-4.png',  text: 'Rich vocabulary & expressions',   tag: 'Eloquent' },
   },
   {
-    before: { icon: '🤐', text: 'Avoid English conversations',   tag: 'Withdrawn' },
-    after:  { icon: '🗣️', text: 'Enjoy English conversations',   tag: 'Engaging' },
+    before: { img: '/assets/transformations/before-5.png', text: 'Avoid English conversations',    tag: 'Withdrawn' },
+    after:  { img: '/assets/transformations/after-5.png',  text: 'Enjoy English conversations',    tag: 'Engaging' },
   },
 ]
 
@@ -115,7 +115,9 @@ export default function BeforeAfter() {
                     className="ba-card-state ba-card-state--before"
                     style={{ clipPath: 'inset(0 0% 0 0)' }}
                   >
-                    <div className="ba-card-icon ba-card-icon--before">{card.before.icon}</div>
+                    <div className="ba-card-icon ba-card-icon--before">
+                      <img src={card.before.img} alt={card.before.tag} className="ba-icon-img" />
+                    </div>
                     <span className="ba-card-tag ba-card-tag--before">{card.before.tag}</span>
                     <span className="ba-card-label ba-card-label--before">{card.before.text}</span>
                   </div>
@@ -125,7 +127,9 @@ export default function BeforeAfter() {
                     className="ba-card-state ba-card-state--after"
                     style={{ clipPath: 'inset(0 0 0 100%)' }}
                   >
-                    <div className="ba-card-icon ba-card-icon--after">{card.after.icon}</div>
+                    <div className="ba-card-icon ba-card-icon--after">
+                      <img src={card.after.img} alt={card.after.tag} className="ba-icon-img" />
+                    </div>
                     <span className="ba-card-tag ba-card-tag--after">{card.after.tag}</span>
                     <span className="ba-card-label ba-card-label--after">{card.after.text}</span>
                   </div>
