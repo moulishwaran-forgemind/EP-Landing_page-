@@ -205,7 +205,9 @@ export default function HeroCarousel({ introDone }) {
                   <img
                     src={slide.image}
                     alt={slide.tag}
-                    loading="eager"
+                    loading={current === 0 ? 'eager' : 'lazy'}
+                    fetchpriority={current === 0 ? 'high' : 'low'}
+                    decoding="async"
                     draggable="false"
                   />
                 </div>

@@ -124,16 +124,15 @@ export default function WhoIsItFor() {
             <div className="audience-number-watermark">{aud.id}</div>
 
             <div className="audience-asset-container">
-              <motion.div
+              <div
                 className="glass-orb-container"
-                animate={{ y: [0, -10, 0], rotateX: [0, 5, 0], rotateY: [0, -5, 0] }}
-                transition={{ duration: 4 + (i * 0.5), repeat: Infinity, ease: 'easeInOut' }}
+                style={{ animationDuration: `${4 + i * 0.5}s` }}
               >
                 <div className="glass-orb" style={{ background: aud.color }}>
                   <div className="glass-orb-reflection" />
-                  <img className="orb-image" src={aud.image} alt={aud.title} />
+                  <img className="orb-image" src={aud.image} alt={aud.title} loading="lazy" decoding="async" width="140" height="140" />
                 </div>
-              </motion.div>
+              </div>
             </div>
 
             <div className="audience-content">

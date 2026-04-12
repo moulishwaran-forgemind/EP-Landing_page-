@@ -77,7 +77,24 @@ const stats = [
 
 function VideoCard({ v }) {
   const videoRef = useRef(null)
+  const wrapperRef = useRef(null)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [loaded, setLoaded] = useState(false)
+
+  useEffect(() => {
+    if (!wrapperRef.current) return
+    const obs = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setLoaded(true)
+          obs.disconnect()
+        }
+      },
+      { rootMargin: '200px' }
+    )
+    obs.observe(wrapperRef.current)
+    return () => obs.disconnect()
+  }, [])
 
   const handleMouseEnter = () => {
     if (videoRef.current) {
@@ -119,19 +136,20 @@ function VideoCard({ v }) {
   }
 
   return (
-    <div 
+    <div
+      ref={wrapperRef}
       className="video-card-wrapper"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
     >
       <div className="video-card-poster">
-        <video 
+        <video
           ref={videoRef}
-          src={v.videoUrl} 
-          loop 
-          playsInline 
-          preload="metadata"
+          src={loaded ? v.videoUrl : undefined}
+          loop
+          playsInline
+          preload="none"
           className="side-moving-video"
         />
         <div className="video-cinematic-overlay" />
@@ -188,13 +206,11 @@ export default function Testimonials() {
          containerRef.current.scrollLeft += speed * deltaTime;
       }
 
-      // Handle Infinite Loop limits
-      // Because we render the array 4 times, the total width consists of 4 chunks.
-      // We can securely reset back 1 chunk smoothly.
+      // We render the array 2 times; reset between halves for an infinite loop feel.
       const scrollWidth = containerRef.current.scrollWidth;
-      const singleChunkWidth = scrollWidth / 4;
+      const singleChunkWidth = scrollWidth / 2;
 
-      if (containerRef.current.scrollLeft >= singleChunkWidth * 2) {
+      if (containerRef.current.scrollLeft >= singleChunkWidth) {
          containerRef.current.scrollLeft -= singleChunkWidth;
       } else if (containerRef.current.scrollLeft <= 0) {
          containerRef.current.scrollLeft += singleChunkWidth;
@@ -204,8 +220,8 @@ export default function Testimonials() {
     }
 
     if (containerRef.current) {
-        // Start somewhere in the middle so we can immediately swipe left or right
-        containerRef.current.scrollLeft = containerRef.current.scrollWidth / 4;
+        // Start at beginning of first chunk
+        containerRef.current.scrollLeft = 0;
     }
 
     animationId = requestAnimationFrame(step);
@@ -272,7 +288,7 @@ export default function Testimonials() {
         onTouchEnd={() => (isDraggingRef.current = false)}
       >
         <div className="video-marquee-track">
-          {[...videoTestimonials, ...videoTestimonials, ...videoTestimonials, ...videoTestimonials].map((v, i) => (
+          {[...videoTestimonials, ...videoTestimonials].map((v, i) => (
             <VideoCard key={i} v={v} />
           ))}
         </div>

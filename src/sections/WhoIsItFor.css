@@ -140,6 +140,17 @@
   filter: drop-shadow(0 30px 25px rgba(0,0,0,0.15));
   transition: filter 0.4s ease;
   transform-style: preserve-3d;
+  animation: orb-float 4s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes orb-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass-orb-container { animation: none; }
 }
 
 .audience-card:hover .glass-orb-container {
