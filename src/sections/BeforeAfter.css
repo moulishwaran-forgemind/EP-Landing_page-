@@ -9,6 +9,16 @@
   height: 350vh;
 }
 
+/* Transformation-specific accent: before-grey fading into after-red.
+   Overrides the global red .title-accent just for this section. */
+.before-after-section .title-accent {
+  background: linear-gradient(90deg, #94a3b8 0%, #64748b 35%, #C8102E 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
 /* Inner pinned stage — sticks to viewport while the outer track scrolls past */
 .ba-sticky {
   position: sticky;
@@ -450,23 +460,23 @@
 
   .ba-card {
     aspect-ratio: auto;
-    min-height: 88px;
-    height: 88px;
-    border-radius: 14px;
+    min-height: 112px;
+    height: 112px;
+    border-radius: 16px;
   }
 
   .ba-card-state {
     flex-direction: row;
     justify-content: flex-start;
-    gap: 14px;
-    padding: 0 14px;
+    gap: 16px;
+    padding: 0 16px;
     text-align: left;
   }
 
   .ba-card-icon {
-    width: 64px;
-    height: 64px;
-    font-size: 28px;
+    width: 88px;
+    height: 88px;
+    font-size: 34px;
   }
 
   .ba-card-tag {
@@ -511,13 +521,13 @@
 /* Extra-narrow phones */
 @media (max-width: 380px) {
   .ba-card {
-    min-height: 80px;
-    height: 80px;
+    min-height: 100px;
+    height: 100px;
   }
   .ba-card-icon {
-    width: 56px;
-    height: 56px;
-    font-size: 24px;
+    width: 76px;
+    height: 76px;
+    font-size: 28px;
   }
   .ba-card-tag {
     display: none;
