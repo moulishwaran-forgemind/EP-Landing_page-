@@ -4,24 +4,24 @@ import './BeforeAfter.css'
 
 const transformations = [
   {
-    before: { img: '/assets/transformations/before-1.png', text: 'Hesitate to speak in public',    tag: 'Nervous' },
-    after:  { img: '/assets/transformations/after-1.png',  text: 'Speak fluently & clearly',        tag: 'Confident' },
+    before: { img: '/assets/transformations/before-1.webp', text: 'Hesitate to speak in public',    tag: 'Nervous' },
+    after:  { img: '/assets/transformations/after-1.webp',  text: 'Speak fluently & clearly',        tag: 'Confident' },
   },
   {
-    before: { img: '/assets/transformations/before-2.png', text: 'Fear of making mistakes',        tag: 'Anxious' },
-    after:  { img: '/assets/transformations/after-2.png',  text: 'Learn from mistakes boldly',     tag: 'Fearless' },
+    before: { img: '/assets/transformations/before-2.webp', text: 'Fear of making mistakes',        tag: 'Anxious' },
+    after:  { img: '/assets/transformations/after-2.webp',  text: 'Learn from mistakes boldly',     tag: 'Fearless' },
   },
   {
-    before: { img: '/assets/transformations/before-3.png', text: 'Silent in meetings',             tag: 'Unheard' },
-    after:  { img: '/assets/transformations/after-3.png',  text: 'Lead meetings & presentations',   tag: 'Leader' },
+    before: { img: '/assets/transformations/before-3.webp', text: 'Silent in meetings',             tag: 'Unheard' },
+    after:  { img: '/assets/transformations/after-3.webp',  text: 'Lead meetings & presentations',   tag: 'Leader' },
   },
   {
-    before: { img: '/assets/transformations/before-4.png', text: 'Struggle with vocabulary',       tag: 'Limited' },
-    after:  { img: '/assets/transformations/after-4.png',  text: 'Rich vocabulary & expressions',   tag: 'Eloquent' },
+    before: { img: '/assets/transformations/before-4.webp', text: 'Struggle with vocabulary',       tag: 'Limited' },
+    after:  { img: '/assets/transformations/after-4.webp',  text: 'Rich vocabulary & expressions',   tag: 'Eloquent' },
   },
   {
-    before: { img: '/assets/transformations/before-5.png', text: 'Avoid English conversations',    tag: 'Withdrawn' },
-    after:  { img: '/assets/transformations/after-5.png',  text: 'Enjoy English conversations',    tag: 'Engaging' },
+    before: { img: '/assets/transformations/before-5.webp', text: 'Avoid English conversations',    tag: 'Withdrawn' },
+    after:  { img: '/assets/transformations/after-5.webp',  text: 'Enjoy English conversations',    tag: 'Engaging' },
   },
 ]
 
@@ -116,7 +116,17 @@ export default function BeforeAfter() {
                     style={{ clipPath: 'inset(0 0% 0 0)' }}
                   >
                     <div className="ba-card-icon ba-card-icon--before">
-                      <img src={card.before.img} alt={card.before.tag} className="ba-icon-img" />
+                      <img
+                        src={card.before.img}
+                        alt={card.before.tag}
+                        className="ba-icon-img"
+                        width="256"
+                        height="256"
+                        loading="lazy"
+                        decoding="async"
+                        fetchpriority="low"
+                        draggable="false"
+                      />
                     </div>
                     <span className="ba-card-tag ba-card-tag--before">{card.before.tag}</span>
                     <span className="ba-card-label ba-card-label--before">{card.before.text}</span>
@@ -128,7 +138,17 @@ export default function BeforeAfter() {
                     style={{ clipPath: 'inset(0 0 0 100%)' }}
                   >
                     <div className="ba-card-icon ba-card-icon--after">
-                      <img src={card.after.img} alt={card.after.tag} className="ba-icon-img" />
+                      <img
+                        src={card.after.img}
+                        alt={card.after.tag}
+                        className="ba-icon-img"
+                        width="256"
+                        height="256"
+                        loading="lazy"
+                        decoding="async"
+                        fetchpriority="low"
+                        draggable="false"
+                      />
                     </div>
                     <span className="ba-card-tag ba-card-tag--after">{card.after.tag}</span>
                     <span className="ba-card-label ba-card-label--after">{card.after.text}</span>
