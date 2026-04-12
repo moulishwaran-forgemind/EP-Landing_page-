@@ -148,8 +148,9 @@ function VideoCard({ v }) {
           ref={videoRef}
           src={loaded ? v.videoUrl : undefined}
           loop
+          muted
           playsInline
-          preload="none"
+          preload="metadata"
           className="side-moving-video"
         />
         <div className="video-cinematic-overlay" />
