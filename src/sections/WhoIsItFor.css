@@ -308,25 +308,30 @@
 
 .audience-modal-close {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 36px;
-  height: 36px;
+  top: 14px;
+  right: 14px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  border: none;
-  background: rgba(255, 255, 255, 0.9);
-  color: #0f172a;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  background: rgba(15, 23, 42, 0.55);
+  color: #ffffff;
   font-size: 22px;
   line-height: 1;
   cursor: pointer;
-  z-index: 3;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
   transition: transform 0.2s ease, background 0.2s ease;
 }
 
-.audience-modal-close:hover {
+.audience-modal-close:hover,
+.audience-modal-close:focus-visible {
   transform: scale(1.08);
-  background: #ffffff;
+  background: rgba(15, 23, 42, 0.8);
+  outline: none;
 }
 
 .audience-modal-header {
@@ -417,6 +422,8 @@
     align-items: flex-start;
     gap: 14px;
     padding: 28px 24px;
+    /* Leave room on the right so title never hides beneath close button */
+    padding-right: 68px;
   }
 
   .audience-modal-img {
@@ -426,5 +433,15 @@
 
   .audience-modal-body {
     padding: 24px 24px 32px;
+  }
+
+  /* Bigger tap target + guaranteed visibility on small screens */
+  .audience-modal-close {
+    top: 12px;
+    right: 12px;
+    width: 44px;
+    height: 44px;
+    font-size: 26px;
+    background: rgba(15, 23, 42, 0.7);
   }
 }
