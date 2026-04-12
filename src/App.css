@@ -9,6 +9,38 @@
   opacity: 1;
 }
 
+/* ── GPU-friendly hero entrance (runs on compositor, doesn't block hydration) ── */
+@keyframes heroFadeIn {
+  from { opacity: 0; transform: translate3d(0, 16px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+.hero-fade-in {
+  opacity: 0;
+  animation: heroFadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes scrollDotBounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(8px); }
+}
+
+.scroll-dot {
+  animation: scrollDotBounce 1.5s ease-in-out infinite;
+}
+
+/* Respect users who prefer reduced motion — kills all decorative animation */
+@media (prefers-reduced-motion: reduce) {
+  .hero-fade-in { animation: none; opacity: 1; }
+  .scroll-dot { animation: none; }
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* ── Hero Placeholder ── */
 .hero-placeholder {
   position: relative;
@@ -177,6 +209,12 @@
     padding: 90px clamp(16px, 4vw, 60px) 60px;
     gap: 32px;
   }
+}
+
+@media (max-width: 860px) {
+  /* 100px blur is murder on mobile GPUs — hide the orbs */
+  .glow-orb { display: none; }
+  .scroll-indicator { display: none; }
 }
 
 @media (max-width: 640px) {

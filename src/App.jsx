@@ -1,39 +1,50 @@
-import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { useEffect, useState, lazy, Suspense } from 'react'
 import Navbar from './Navbar'
-import WhatsAppFloat from './components/WhatsAppFloat'
-import LetterPop from './components/LetterPop'
-import Features from './sections/Features'
-import Courses from './sections/Courses'
-import Testimonials from './sections/Testimonials'
-import FAQ from './sections/FAQ'
-import Contact from './sections/Contact'
-import Footer from './sections/Footer'
-import WhoIsItFor from './sections/WhoIsItFor'
 import HeroCarousel from './sections/HeroCarousel'
-import BeforeAfter from './sections/BeforeAfter'
-import StickyCTA from './components/StickyCTA'
 import './App.css'
+
+// Below-the-fold: lazy-loaded so initial bundle stays small
+const WhoIsItFor = lazy(() => import('./sections/WhoIsItFor'))
+const Features = lazy(() => import('./sections/Features'))
+const Courses = lazy(() => import('./sections/Courses'))
+const BeforeAfter = lazy(() => import('./sections/BeforeAfter'))
+const Testimonials = lazy(() => import('./sections/Testimonials'))
+const FAQ = lazy(() => import('./sections/FAQ'))
+const Contact = lazy(() => import('./sections/Contact'))
+const Footer = lazy(() => import('./sections/Footer'))
+
+// Non-critical UI: defer so they never block LCP
+const WhatsAppFloat = lazy(() => import('./components/WhatsAppFloat'))
+const LetterPop = lazy(() => import('./components/LetterPop'))
+const StickyCTA = lazy(() => import('./components/StickyCTA'))
 
 const WA_LINK = 'https://api.whatsapp.com/send/?phone=918667272183&text=Hi%2C+I+would+like+to+know+more+about+the+courses.&type=phone_number&app_absent=0'
 
 export default function App() {
   const [introDone] = useState(true)
+  const [deferredReady, setDeferredReady] = useState(false)
 
   useEffect(() => {
     document.body.classList.add('page-ready')
+    // Defer non-critical widgets until browser is idle so they don't fight LCP
+    const schedule = window.requestIdleCallback || ((cb) => setTimeout(cb, 1200))
+    const id = schedule(() => setDeferredReady(true))
+    return () => {
+      if (window.cancelIdleCallback && typeof id === 'number') window.cancelIdleCallback(id)
+      else clearTimeout(id)
+    }
   }, [])
 
   return (
     <>
-      {/* Floating WhatsApp button */}
-      {introDone && <WhatsAppFloat />}
-
-      {/* Click-to-pop alphabet letters */}
-      {introDone && <LetterPop />}
-
-      {/* Sticky CTA bar (mobile only) */}
-      {introDone && <StickyCTA />}
+      {/* Deferred floating widgets — load after first paint */}
+      {deferredReady && (
+        <Suspense fallback={null}>
+          <WhatsAppFloat />
+          <LetterPop />
+          <StickyCTA />
+        </Suspense>
+      )}
 
       {/* Site shell */}
       <div className={`site-shell ${introDone ? 'visible' : ''}`}>
@@ -43,41 +54,21 @@ export default function App() {
         <main className="hero-placeholder" id="home">
           <div className="hero-content">
 
-            <motion.div
-              className="hero-badge"
-              initial={{ opacity: 0, y: 20 }}
-              animate={introDone ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.2, duration: 0.6 }}
-            >
+            <div className="hero-badge hero-fade-in" style={{ animationDelay: '0.1s' }}>
               🎓 Face-to-Face Classroom Training · Coimbatore
-            </motion.div>
+            </div>
 
-            <motion.h1
-              className="hero-headline"
-              initial={{ opacity: 0, y: 30 }}
-              animate={introDone ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.4, duration: 0.7 }}
-            >
+            <h1 className="hero-headline hero-fade-in" style={{ animationDelay: '0.2s' }}>
               Speak with <span className="highlight-red">Confidence.</span><br />
               Grow with <span className="highlight-blue">English.</span>
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              className="hero-sub"
-              initial={{ opacity: 0, y: 20 }}
-              animate={introDone ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.6, duration: 0.6 }}
-            >
+            <p className="hero-sub hero-fade-in" style={{ animationDelay: '0.35s' }}>
               Offline spoken English classes in Coimbatore — combining 1-to-1 trainer
               personalised training and group learning to help you communicate with real confidence.
-            </motion.p>
+            </p>
 
-            <motion.div
-              className="hero-actions"
-              initial={{ opacity: 0, y: 20 }}
-              animate={introDone ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.8, duration: 0.6 }}
-            >
+            <div className="hero-actions hero-fade-in" style={{ animationDelay: '0.5s' }}>
               <a
                 href={WA_LINK}
                 target="_blank"
@@ -87,7 +78,7 @@ export default function App() {
                 💬 Book a Free Demo
               </a>
               <a href="#features" className="btn-ghost">Learn More ↓</a>
-            </motion.div>
+            </div>
 
           </div>
 
@@ -98,33 +89,24 @@ export default function App() {
           <div className="glow-orb orb-red" />
           <div className="glow-orb orb-blue" />
 
-          {/* Scroll indicator */}
-          {introDone && (
-            <motion.div
-              className="scroll-indicator"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.4, duration: 0.8 }}
-            >
-              <span>Scroll</span>
-              <motion.div
-                className="scroll-dot"
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-              />
-            </motion.div>
-          )}
+          {/* Scroll indicator (CSS-animated, desktop only) */}
+          <div className="scroll-indicator hero-fade-in" style={{ animationDelay: '1s' }}>
+            <span>Scroll</span>
+            <div className="scroll-dot" />
+          </div>
         </main>
 
-        {/* ── All Sections ── */}
-        <WhoIsItFor />
-        <Features />
-        <Courses />
-        <BeforeAfter />
-        <Testimonials />
-        <FAQ />
-        <Contact />
-        <Footer />
+        {/* ── All Sections (lazy) ── */}
+        <Suspense fallback={<div style={{ minHeight: '60vh' }} />}>
+          <WhoIsItFor />
+          <Features />
+          <Courses />
+          <BeforeAfter />
+          <Testimonials />
+          <FAQ />
+          <Contact />
+          <Footer />
+        </Suspense>
       </div>
     </>
   )
