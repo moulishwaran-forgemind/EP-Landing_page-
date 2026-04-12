@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import './WhoIsItFor.css'
 
 const audiences = [
@@ -150,6 +151,7 @@ export default function WhoIsItFor() {
         ))}
       </div>
 
+      {createPortal(
       <AnimatePresence>
         {active && (
           <motion.div
@@ -205,7 +207,9 @@ export default function WhoIsItFor() {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>,
+      document.body
+      )}
     </section>
   )
 }

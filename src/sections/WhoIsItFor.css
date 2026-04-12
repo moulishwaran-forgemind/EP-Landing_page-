@@ -286,7 +286,9 @@
   background: rgba(15, 23, 42, 0.55);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
-  z-index: 2000;
+  /* Higher than the fixed navbar (z-index: 1000) so the backdrop and
+     close button can never be covered by it */
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
