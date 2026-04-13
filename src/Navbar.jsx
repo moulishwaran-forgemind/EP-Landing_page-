@@ -93,7 +93,7 @@ export default function Navbar({ visible }) {
 
       {/* Nav links */}
       <ul className="nav-links">
-        <li><a href="#features">Why Offline?</a></li>
+        <li><a href="#features">Why Direct?</a></li>
         <li><a href="#courses">Who It's For</a></li>
         <li><a href="#testimonials">Reviews</a></li>
         <li><a href="#faq">FAQ</a></li>

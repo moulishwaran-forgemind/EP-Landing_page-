@@ -7,10 +7,10 @@ const WA_LINK =
 
 const slides = [
   {
-    tag: 'Coimbatore \u00b7 Offline Classes',
+    tag: 'Coimbatore \u00b7 Direct Classes',
     heading: 'Face-to-Face Classroom Training Now In Coimbatore',
     description:
-      'Offline spoken English classes are now available exclusively in Coimbatore, combining 1 to 1 trainer personalised training and group learning.',
+      'Direct spoken English classes are now available exclusively in Coimbatore, combining 1 to 1 trainer personalised training and group learning.',
     cta: 'Book a Free Demo',
     image: '/assets/banners/Banner3.webp',
     accent: 'red',

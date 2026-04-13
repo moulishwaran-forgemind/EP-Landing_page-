@@ -21,6 +21,58 @@
   border-radius: 50%;
 }
 
+/* Speech-bubble label beside the button — glowing WhatsApp style */
+.whatsapp-label {
+  position: absolute;
+  right: calc(100% + 14px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  padding: 9px 14px;
+  border-radius: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.18) inset,
+    0 6px 18px rgba(37, 211, 102, 0.55),
+    0 0 22px rgba(37, 211, 102, 0.45);
+  animation: waLabelGlow 2.2s ease-in-out infinite;
+}
+
+.whatsapp-label::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -5px;
+  transform: translateY(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background: #1fbe5c;
+  box-shadow: 2px -2px 8px rgba(37, 211, 102, 0.5);
+}
+
+@keyframes waLabelGlow {
+  0%, 100% {
+    transform: translateY(-50%) translateX(0);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.18) inset,
+      0 6px 18px rgba(37, 211, 102, 0.55),
+      0 0 22px rgba(37, 211, 102, 0.45);
+  }
+  50% {
+    transform: translateY(-50%) translateX(-4px);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.25) inset,
+      0 8px 24px rgba(37, 211, 102, 0.7),
+      0 0 34px rgba(37, 211, 102, 0.75);
+  }
+}
+
 /* Pulsing ring animation */
 .whatsapp-pulse {
   position: absolute;
@@ -36,9 +88,71 @@
   100% { transform: scale(1.5); opacity: 0; }
 }
 
-/* Move above sticky CTA bar on mobile */
+/* Move above sticky CTA bar on mobile + tighten label */
 @media (max-width: 768px) {
   .whatsapp-float {
     bottom: 80px;
+    right: 18px;
+    width: 52px;
+    height: 52px;
+  }
+
+  .whatsapp-float svg {
+    width: 52px;
+    height: 52px;
+  }
+
+  .whatsapp-label {
+    right: calc(100% + 10px);
+    font-size: 12px;
+    padding: 7px 11px;
+    border-radius: 10px;
+    letter-spacing: 0.1px;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+      0 4px 14px rgba(37, 211, 102, 0.55),
+      0 0 16px rgba(37, 211, 102, 0.45);
+  }
+
+  .whatsapp-label::after {
+    right: -4px;
+    width: 8px;
+    height: 8px;
+  }
+}
+
+/* Very small phones: stack label above the button so it never hits the screen edge */
+@media (max-width: 380px) {
+  .whatsapp-label {
+    right: 50%;
+    top: auto;
+    bottom: calc(100% + 10px);
+    transform: translateX(50%);
+    font-size: 11.5px;
+    padding: 6px 10px;
+  }
+
+  .whatsapp-label::after {
+    top: auto;
+    right: 50%;
+    bottom: -4px;
+    transform: translateX(50%) rotate(45deg);
+  }
+
+  @keyframes waLabelGlow {
+    0%, 100% {
+      transform: translateX(50%) translateY(0);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+        0 4px 14px rgba(37, 211, 102, 0.55),
+        0 0 16px rgba(37, 211, 102, 0.45);
+    }
+    50% {
+      transform: translateX(50%) translateY(-3px);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.28) inset,
+        0 6px 20px rgba(37, 211, 102, 0.7),
+        0 0 26px rgba(37, 211, 102, 0.75);
+    }
   }
 }

@@ -25,7 +25,7 @@ const features = [
   {
     icon: '🗣️',
     title: 'Daily Conversation Practice',
-    desc: 'Our offline classes combine Trainer Guidance, Structured Lessons, and Daily Conversation practice so learners improve naturally.',
+    desc: 'Our direct classes combine Trainer Guidance, Structured Lessons, and Daily Conversation practice so learners improve naturally.',
   },
   {
     icon: '🏆',
@@ -38,7 +38,7 @@ export default function Features() {
   return (
     <section className="features-section" id="features">
       <div className="section-header">
-        <span className="section-label">Why Offline Training?</span>
+        <span className="section-label">Why Direct Training?</span>
         <h2 className="section-title">
           The classroom experience<br />
           <span className="title-accent">makes the difference</span>

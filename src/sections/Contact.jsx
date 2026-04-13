@@ -12,8 +12,8 @@ export default function Contact() {
         <div className="cta-content">
           <h2 className="cta-heading">Your first step towards confident English starts here.</h2>
           <p className="cta-sub">
-            Book a free demo class at our Coimbatore centre. Come in, experience the
-            classroom, meet the trainer, and decide from there.
+            Book a free demo class at English Partner, our Coimbatore centre. Come in,
+            experience the classroom, meet the trainer, and decide from there.
           </p>
           <div className="cta-actions">
             <a
@@ -34,10 +34,9 @@ export default function Contact() {
       {/* Contact Info Cards */}
       <div className="contact-info">
         {[
-          { icon: '📍', label: 'Address', value: 'Arima Wakefields, Coimbatore, Tamil Nadu' },
+          { icon: '📍', label: 'Address', value: 'English Partner, Arima Wakefield, Coimbatore, Tamil Nadu' },
           { icon: '💬', label: 'WhatsApp', value: '+91 86672 72183' },
           { icon: '🌐', label: 'Website',  value: 'englishpartner.net' },
-          { icon: '🎓', label: 'Training', value: 'Offline Classroom · Coimbatore' },
         ].map((item, i) => (
           <div key={i} className="contact-card">
             <span className="contact-icon">{item.icon}</span>
@@ -55,13 +54,13 @@ export default function Contact() {
           <span className="map-pin">📍</span>
           <div>
             <h3 className="map-title">Visit Our Classroom</h3>
-            <p className="map-address">Arima Wakefields, Coimbatore, Tamil Nadu</p>
+            <p className="map-address">English Partner, Arima Wakefield, Coimbatore, Tamil Nadu</p>
           </div>
         </div>
         <div className="map-frame">
           <iframe
             title="English Partner Location"
-            src="https://www.google.com/maps?q=Arima+Wakefields,+Coimbatore,+Tamil+Nadu,+India&output=embed&z=15"
+            src="https://www.google.com/maps?q=English+Partner,+Arima+Wakefield,+Coimbatore,+Tamil+Nadu,+India&output=embed&z=15"
             width="100%"
             height="100%"
             style={{ border: 0 }}
@@ -71,7 +70,7 @@ export default function Contact() {
           />
         </div>
         <a
-          href="https://www.google.com/maps/search/Arima+Wakefields+Coimbatore"
+          href="https://www.google.com/maps/search/English+Partner+Arima+Wakefield+Coimbatore"
           target="_blank"
           rel="noreferrer"
           className="map-directions-btn"

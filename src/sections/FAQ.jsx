@@ -4,8 +4,8 @@ import { useState } from 'react'
 
 const faqs = [
   {
-    q: 'Where are the offline classes held?',
-    a: 'Our offline classroom training is held exclusively in Coimbatore. You can visit our centre, meet the trainer, and attend a free demo class before enrolling.',
+    q: 'Where are the direct classes held?',
+    a: 'Our direct classroom training is held exclusively in Coimbatore. You can visit our centre, meet the trainer, and attend a free demo class before enrolling.',
   },
   {
     q: 'What is the class format?',

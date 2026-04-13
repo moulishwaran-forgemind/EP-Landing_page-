@@ -13,10 +13,11 @@ export default function WhatsAppFloat() {
       aria-label="Chat on WhatsApp"
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      transition={{ delay: 6, duration: 0.4, type: 'spring', stiffness: 200 }}
+      transition={{ delay: 3, duration: 0.4, type: 'spring', stiffness: 200 }}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
     >
+      <span className="whatsapp-label">Know about classes</span>
       <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="16" cy="16" r="16" fill="#25D366"/>
         <path

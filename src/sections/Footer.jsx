@@ -11,12 +11,12 @@ export default function Footer() {
             <span className="footer-logo-red">English</span>
             <span className="footer-logo-blue">Partner</span>
           </div>
-          <p className="footer-tagline">Offline Classroom Training · Coimbatore</p>
+          <p className="footer-tagline">Direct Classroom Training · Coimbatore</p>
           <p className="footer-copy-inline">Trusted by 2,00,000+ learners across Tamil Nadu</p>
         </div>
 
         <div className="footer-links">
-          <a href="#features">Why Offline?</a>
+          <a href="#features">Why Direct?</a>
           <a href="#courses">Who It's For</a>
           <a href="#testimonials">Reviews</a>
           <a href="#faq">FAQ</a>

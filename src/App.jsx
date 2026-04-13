@@ -64,7 +64,7 @@ export default function App() {
             </h1>
 
             <p className="hero-sub hero-fade-in" style={{ animationDelay: '0.35s' }}>
-              Offline spoken English classes in Coimbatore — combining 1-to-1 trainer
+              Direct spoken English classes in Coimbatore — combining 1-to-1 trainer
               personalised training and group learning to help you communicate with real confidence.
             </p>
 
