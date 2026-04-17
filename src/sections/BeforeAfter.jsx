@@ -29,109 +29,132 @@ const N = transformations.length
 const SEG = 100 / N
 
 /* ══════════════════════════════════════════════════
-   Mobile: single box with auto-cycling transformations
+   Mobile: slider comparison + thumbnail selectors
    ══════════════════════════════════════════════════ */
 
 function MobileBeforeAfter() {
   const [active, setActive] = useState(0)
-  const sectionRef = useRef(null)
-  const [inView, setInView] = useState(false)
-
-  // Only auto-play when section is visible on screen
-  useEffect(() => {
-    const el = sectionRef.current
-    if (!el) return
-    const obs = new IntersectionObserver(
-      ([entry]) => setInView(entry.isIntersecting),
-      { threshold: 0.3 }
-    )
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [])
-
-  // Auto-cycle every 5s
-  useEffect(() => {
-    if (!inView) return
-    const timer = setInterval(() => {
-      setActive((prev) => (prev + 1) % N)
-    }, 5000)
-    return () => clearInterval(timer)
-  }, [inView])
+  const [sliderX, setSliderX] = useState(50)
+  const compareRef = useRef(null)
+  const dragging = useRef(false)
 
   const card = transformations[active]
 
+  const getPercent = (e) => {
+    const rect = compareRef.current.getBoundingClientRect()
+    const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left
+    return Math.max(8, Math.min(92, (x / rect.width) * 100))
+  }
+
+  const onStart = (e) => { dragging.current = true; setSliderX(getPercent(e)) }
+  const onMove = (e) => {
+    if (!dragging.current) return
+    e.preventDefault()
+    setSliderX(getPercent(e))
+  }
+  const onEnd = () => { dragging.current = false }
+
+  // Reset slider to center when switching transformation
+  useEffect(() => { setSliderX(50) }, [active])
+
   return (
-    <section className="before-after-section ba-mobile" ref={sectionRef}>
+    <section className="before-after-section ba-mobile">
       <div className="section-header">
         <span className="section-label">Transformation</span>
         <h2 className="section-title">
           See the <span className="title-accent">difference</span>
         </h2>
         <p className="section-sub">
-          Watch every habit transform, one by one.
+          Slide to see the transformation
         </p>
       </div>
 
       <div className="ba-m-box">
+        {/* Before / After labels */}
+        <div className="ba-m-top-labels">
+          <span className="ba-m-top-label ba-m-top-label--before">Before</span>
+          <span className="ba-m-top-label ba-m-top-label--after">After</span>
+        </div>
+
+        {/* Image comparison */}
+        <div
+          className="ba-m-compare"
+          ref={compareRef}
+          onTouchStart={onStart}
+          onTouchMove={onMove}
+          onTouchEnd={onEnd}
+          onMouseDown={onStart}
+          onMouseMove={onMove}
+          onMouseUp={onEnd}
+          onMouseLeave={onEnd}
+        >
+          {/* Before layer */}
+          <div
+            className="ba-m-layer ba-m-layer--before"
+            style={{ clipPath: `inset(0 ${100 - sliderX}% 0 0)` }}
+          >
+            <img src={card.before.img} alt={card.before.tag} draggable="false" />
+          </div>
+
+          {/* After layer */}
+          <div
+            className="ba-m-layer ba-m-layer--after"
+            style={{ clipPath: `inset(0 0 0 ${sliderX}%)` }}
+          >
+            <img src={card.after.img} alt={card.after.tag} draggable="false" />
+          </div>
+
+          {/* Slider line + handle */}
+          <div className="ba-m-slider" style={{ left: `${sliderX}%` }}>
+            <div className="ba-m-slider-line" />
+            <div className="ba-m-slider-knob">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 6 15 12 9 18" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        {/* Description row */}
         <AnimatePresence mode="wait">
           <motion.div
             key={active}
-            className="ba-m-slide-wrapper"
-            initial={{ opacity: 0, y: 20, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -16, scale: 0.97 }}
-            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+            className="ba-m-desc"
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.3 }}
           >
-            {/* Column headers */}
-            <div className="ba-m-headers">
-              <span className="ba-m-header ba-m-header--before">
-                <span className="ba-m-hdot ba-m-hdot--before" />
-                Before
-              </span>
-              <span className="ba-m-header ba-m-header--after">
-                After
-                <span className="ba-m-hdot ba-m-hdot--after" />
-              </span>
+            <div className="ba-m-desc-side ba-m-desc-side--before">
+              <span className="ba-m-desc-tag">{card.before.tag}</span>
+              <span className="ba-m-desc-text">{card.before.text}</span>
             </div>
-
-            {/* Slide content */}
-            <div className="ba-m-slide">
-              <div className="ba-m-side ba-m-before">
-                <div className="ba-m-icon ba-m-icon--before">
-                  <img src={card.before.img} alt={card.before.tag} width="96" height="96" loading="lazy" decoding="async" draggable="false" />
-                </div>
-                <span className="ba-m-tag ba-m-tag--before">{card.before.tag}</span>
-                <span className="ba-m-label ba-m-label--before">{card.before.text}</span>
-              </div>
-
-              <div className="ba-m-arrow">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
-              </div>
-
-              <div className="ba-m-side ba-m-after">
-                <div className="ba-m-icon ba-m-icon--after">
-                  <img src={card.after.img} alt={card.after.tag} width="96" height="96" loading="lazy" decoding="async" draggable="false" />
-                </div>
-                <span className="ba-m-tag ba-m-tag--after">{card.after.tag}</span>
-                <span className="ba-m-label ba-m-label--after">{card.after.text}</span>
-              </div>
+            <div className="ba-m-desc-arrow">→</div>
+            <div className="ba-m-desc-side ba-m-desc-side--after">
+              <span className="ba-m-desc-tag">{card.after.tag}</span>
+              <span className="ba-m-desc-text">{card.after.text}</span>
             </div>
           </motion.div>
         </AnimatePresence>
 
-        {/* Progress dots */}
-        <div className="ba-m-dots">
-          {transformations.map((_, i) => (
+        {/* Thumbnail selectors */}
+        <div className="ba-m-thumbs">
+          {transformations.map((t, i) => (
             <button
               key={i}
               type="button"
-              className={`ba-m-dot ${i === active ? 'ba-m-dot--active' : ''}`}
+              className={`ba-m-thumb ${i === active ? 'ba-m-thumb--active' : ''}`}
               onClick={() => setActive(i)}
-              aria-label={`Transformation ${i + 1}`}
-            />
+              aria-label={`Transformation ${i + 1}: ${t.after.tag}`}
+            >
+              <div className="ba-m-thumb-img">
+                <img src={t.after.img} alt={t.after.tag} draggable="false" />
+              </div>
+              <span className="ba-m-thumb-name">{t.after.tag}</span>
+            </button>
           ))}
         </div>
       </div>
