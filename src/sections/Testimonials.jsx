@@ -75,7 +75,7 @@ const stats = [
   { value: '1M+',      numeric: null,     label: 'Learning Community' },
 ]
 
-function VideoCard({ v }) {
+function VideoCard({ v, onPlay }) {
   const videoRef = useRef(null)
   const wrapperRef = useRef(null)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -110,16 +110,23 @@ function VideoCard({ v }) {
       if (wantsPlayRef.current) startPlayback()
     }
 
+    const onPause = () => setIsPlaying(false)
+
     video.addEventListener('canplay', onCanPlay)
+    video.addEventListener('pause', onPause)
     if (video.readyState >= 3) onCanPlay()
 
-    return () => video.removeEventListener('canplay', onCanPlay)
+    return () => {
+      video.removeEventListener('canplay', onCanPlay)
+      video.removeEventListener('pause', onPause)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaded])
 
   const startPlayback = () => {
     const video = videoRef.current
     if (!video) return
+    onPlay(video)
     video.muted = false
     video.play()
       .then(() => setIsPlaying(true))
@@ -210,6 +217,14 @@ export default function Testimonials() {
   const isDraggingRef = useRef(false)
   const startX = useRef(0)
   const scrollLeft = useRef(0)
+  const activeVideoRef = useRef(null)
+
+  const handlePlay = (video) => {
+    if (activeVideoRef.current && activeVideoRef.current !== video) {
+      activeVideoRef.current.pause()
+    }
+    activeVideoRef.current = video
+  }
 
   // Native Infinite Auto-Scroll — only runs when section is visible
   useEffect(() => {
@@ -325,7 +340,7 @@ export default function Testimonials() {
       >
         <div className="video-marquee-track">
           {[...videoTestimonials, ...videoTestimonials].map((v, i) => (
-            <VideoCard key={i} v={v} />
+            <VideoCard key={i} v={v} onPlay={handlePlay} />
           ))}
         </div>
       </div>
