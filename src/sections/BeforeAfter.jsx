@@ -34,28 +34,12 @@ const SEG = 100 / N
 
 function MobileBeforeAfter() {
   const [active, setActive] = useState(0)
-  const [sliderX, setSliderX] = useState(50)
-  const compareRef = useRef(null)
-  const dragging = useRef(false)
+  const [isFlipped, setIsFlipped] = useState(false)
 
   const card = transformations[active]
 
-  const getPercent = (e) => {
-    const rect = compareRef.current.getBoundingClientRect()
-    const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left
-    return Math.max(8, Math.min(92, (x / rect.width) * 100))
-  }
-
-  const onStart = (e) => { dragging.current = true; setSliderX(getPercent(e)) }
-  const onMove = (e) => {
-    if (!dragging.current) return
-    e.preventDefault()
-    setSliderX(getPercent(e))
-  }
-  const onEnd = () => { dragging.current = false }
-
-  // Reset slider to center when switching transformation
-  useEffect(() => { setSliderX(50) }, [active])
+  // Reset to before side when switching transformation
+  useEffect(() => { setIsFlipped(false) }, [active])
 
   return (
     <section className="before-after-section ba-mobile">
@@ -65,78 +49,45 @@ function MobileBeforeAfter() {
           See the <span className="title-accent">difference</span>
         </h2>
         <p className="section-sub">
-          Slide to see the transformation
+          Tap to see the transformation
         </p>
       </div>
 
       <div className="ba-m-box">
-        {/* Before / After labels */}
-        <div className="ba-m-top-labels">
-          <span className="ba-m-top-label ba-m-top-label--before">Before</span>
-          <span className="ba-m-top-label ba-m-top-label--after">After</span>
-        </div>
-
-        {/* Image comparison */}
+        {/* Image flip card */}
         <div
-          className="ba-m-compare"
-          ref={compareRef}
-          onTouchStart={onStart}
-          onTouchMove={onMove}
-          onTouchEnd={onEnd}
-          onMouseDown={onStart}
-          onMouseMove={onMove}
-          onMouseUp={onEnd}
-          onMouseLeave={onEnd}
+          className={`ba-m-compare ${isFlipped ? 'is-flipped' : ''}`}
+          onClick={() => setIsFlipped((f) => !f)}
         >
-          {/* Before layer */}
-          <div
-            className="ba-m-layer ba-m-layer--before"
-            style={{ clipPath: `inset(0 ${100 - sliderX}% 0 0)` }}
-          >
-            <img src={card.before.img} alt={card.before.tag} draggable="false" />
-          </div>
-
-          {/* After layer */}
-          <div
-            className="ba-m-layer ba-m-layer--after"
-            style={{ clipPath: `inset(0 0 0 ${sliderX}%)` }}
-          >
-            <img src={card.after.img} alt={card.after.tag} draggable="false" />
-          </div>
-
-          {/* Slider line + handle */}
-          <div className="ba-m-slider" style={{ left: `${sliderX}%` }}>
-            <div className="ba-m-slider-line" />
-            <div className="ba-m-slider-knob">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="15 18 9 12 15 6" />
-              </svg>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="9 6 15 12 9 18" />
-              </svg>
+          <div className="ba-m-flip-inner">
+            {/* Front — Before */}
+            <div className="ba-m-flip-front">
+              <img src={card.before.img} alt={card.before.tag} draggable="false" />
+              <span className="ba-m-flip-label ba-m-flip-label--before">Before</span>
+              <div className="ba-m-tap-hint">
+                <span className="ba-m-tap-dot" />
+              </div>
+            </div>
+            {/* Back — After */}
+            <div className="ba-m-flip-back">
+              <img src={card.after.img} alt={card.after.tag} draggable="false" />
+              <span className="ba-m-flip-label ba-m-flip-label--after">After</span>
             </div>
           </div>
         </div>
 
-        {/* Description row */}
+        {/* Description — shows current side only */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={active}
-            className="ba-m-desc"
+            key={`${active}-${isFlipped}`}
+            className={`ba-m-desc-single ${isFlipped ? 'ba-m-desc-single--after' : 'ba-m-desc-single--before'}`}
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.3 }}
           >
-            <div className="ba-m-desc-side ba-m-desc-side--before">
-              <span className="ba-m-desc-tag">{card.before.tag}</span>
-              <span className="ba-m-desc-text">{card.before.text}</span>
-            </div>
-            <div className="ba-m-desc-arrow">→</div>
-            <div className="ba-m-desc-side ba-m-desc-side--after">
-              <span className="ba-m-desc-tag">{card.after.tag}</span>
-              <span className="ba-m-desc-text">{card.after.text}</span>
-            </div>
+            <span className="ba-m-desc-tag">{isFlipped ? card.after.tag : card.before.tag}</span>
+            <span className="ba-m-desc-text">{isFlipped ? card.after.text : card.before.text}</span>
           </motion.div>
         </AnimatePresence>
 

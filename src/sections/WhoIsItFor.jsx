@@ -28,7 +28,7 @@ const audiences = [
     id: '02',
     title: 'Job Seekers',
     desc: 'Bridge the gap to employment. Refine your interview presence, navigate complex group discussions with ease, and develop the professional vocabulary needed to secure your ideal career role.',
-    image: '/assets/Who is this Training for Images/Job Seekers.avif',
+    image: '/assets/Who is this Training for Images/Job Seekers.jpg',
     color: 'linear-gradient(135deg, #F472B6, #EC4899)',
     objectPosition: 'top',
     details: {
