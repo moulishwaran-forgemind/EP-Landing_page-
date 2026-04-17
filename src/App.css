@@ -74,7 +74,7 @@
 
 .hero-headline {
   font-family: 'Outfit', sans-serif;
-  font-size: clamp(36px, 6vw, 76px);
+  font-size: clamp(28px, 3.6vw, 50px);
   font-weight: 800;
   color: #0f172a;
   line-height: 1.1;
