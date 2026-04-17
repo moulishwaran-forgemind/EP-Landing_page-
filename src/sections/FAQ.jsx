@@ -5,11 +5,20 @@ import { useState } from 'react'
 const faqs = [
   {
     q: 'Where are the direct classes held?',
-    a: 'Our direct classroom training is held exclusively in Coimbatore. You can visit our centre, meet the trainer, and attend a free demo class before enrolling.',
+    a: (
+      <>
+        Our direct classroom training is held exclusively in Coimbatore at English Partner Spoken English Training Institute.
+        <br />
+        <br />
+        <strong>Our Address:</strong>
+        <br />
+        English Partner, Arima Wakefield, Peelamedu, Coimbatore, Tamil Nadu 641004.
+      </>
+    ),
   },
   {
     q: 'What is the class format?',
-    a: 'We combine 1-on-1 trainer guidance with group learning. The classroom setting ensures structured lessons, daily conversation practice, and real-time feedback.',
+    a: 'We have Direct 1-on-1 Personalized Training classes and Direct Group training classes. The classroom setting ensures structured lessons, daily conversation practice, and real-time feedback from experienced trainers.',
   },
   {
     q: 'Who is this training designed for?',
@@ -17,7 +26,7 @@ const faqs = [
   },
   {
     q: 'Can I attend a demo class before enrolling?',
-    a: 'Yes! We offer a free demo class at our Coimbatore centre. Come in, experience the classroom, meet the trainer, and decide from there — no pressure.',
+    a: 'Yes! We offer a free demo class at English Partner Spoken English Training Institute, Coimbatore, and based on the demo you can express your requirements and decide.',
   },
   {
     q: 'Do I need prior English knowledge to join?',

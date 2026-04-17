@@ -152,9 +152,10 @@ function VideoCard({ v, onPlay }) {
   const handleClick = () => {
     const video = videoRef.current
     if (!video) return
+    if (!loaded) setLoaded(true)
     if (video.paused) {
       wantsPlayRef.current = true
-      if (ready) startPlayback()
+      startPlayback()
     } else {
       video.pause()
       setIsPlaying(false)
@@ -174,10 +175,11 @@ function VideoCard({ v, onPlay }) {
       <div className="video-card-poster">
         <video
           ref={videoRef}
-          src={loaded ? v.videoUrl : undefined}
+          src={loaded ? `${v.videoUrl}#t=0.1` : undefined}
           loop
           muted
           playsInline
+          webkit-playsinline="true"
           preload="metadata"
           className="side-moving-video"
         />

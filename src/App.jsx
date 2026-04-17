@@ -54,7 +54,7 @@ export default function App() {
           <div className="hero-content">
 
             <div className="hero-badge hero-fade-in" style={{ animationDelay: '0.1s' }}>
-              🎓 Face-to-Face Classroom Training · Coimbatore
+              🎓 Direct 1-1 Personalized Training Classes at Coimbatore
             </div>
 
             <h1 className="hero-headline hero-fade-in" style={{ animationDelay: '0.2s' }}>
@@ -63,9 +63,10 @@ export default function App() {
             </h1>
 
             <p className="hero-sub hero-fade-in" style={{ animationDelay: '0.35s' }}>
-              Join Coimbatore's premier spoken English training institution. Our direct classes offer
-              a hybrid curriculum of individualized language coaching and interactive group sessions
-              designed to bridge the gap between learning and real-world communication.
+              Join Coimbatore's Exclusive Direct Class at English Partner Spoken English Training
+              Institution. Our direct classes offer a hybrid curriculum of individualized language
+              coaching and interactive group sessions designed to bridge the gap between learning
+              and real-world communication.
             </p>
 
             <div className="hero-actions hero-fade-in" style={{ animationDelay: '0.5s' }}>
