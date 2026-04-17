@@ -20,8 +20,8 @@ const faqs = [
     a: 'Yes! We offer a free demo class at our Coimbatore centre. Come in, experience the classroom, meet the trainer, and decide from there — no pressure.',
   },
   {
-    q: 'Is there a money-back guarantee?',
-    a: 'Yes. English Partner offers a 7-day money-back guarantee. If you\'re not satisfied within the first 7 days, you can request a full refund.',
+    q: 'Do I need prior English knowledge to join?',
+    a: 'Not at all. Our trainers start from the basics and guide you step-by-step. Whether you\'re a complete beginner or someone who understands English but hesitates to speak, the course is designed to meet you at your level.',
   },
   {
     q: 'How do I book a demo class?',
