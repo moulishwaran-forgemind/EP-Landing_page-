@@ -12,8 +12,8 @@ export default function Contact() {
         <div className="cta-content">
           <h2 className="cta-heading">Your first step towards confident English starts here.</h2>
           <p className="cta-sub">
-            Book a free demo class at English Partner, our Coimbatore centre. Come in,
-            experience the classroom, meet the trainer, and decide from there.
+            Book a free demo class at English Partner Spoken English Training Institution
+            Coimbatore. Come in, experience the classroom, meet the trainer, and decide from there.
           </p>
           <div className="cta-actions">
             <a
