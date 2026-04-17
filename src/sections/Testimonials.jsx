@@ -37,42 +37,42 @@ function formatIndian(num) {
 
 const videoTestimonials = [
   {
-    title: 'Student Feedback',
-    subtitle: 'From College Student',
-    videoUrl: 'https://englishpartner.com/wp-content/uploads/2026/01/Lets-hear-what-our-students-say-_-%E2%98%8E-91-7708605866-_-English-Partner-Tamil.mp4',
+    title: 'Bharath',
+    subtitle: 'Student Success Story',
+    videoUrl: '/videos/bharath.mp4',
   },
   {
-    title: 'School Students',
-    subtitle: 'Learning English Online',
-    videoUrl: 'https://englishpartner.com/wp-content/uploads/2026/01/English-Partner-x-School-students-%F0%9F%91%A8_%F0%9F%8F%AB_-English-Partner-_-Learn-English-Online.mp4',
+    title: 'Divya',
+    subtitle: 'Student Success Story',
+    videoUrl: '/videos/divya.mp4',
   },
   {
-    title: 'Appreciation & Love',
-    subtitle: 'Mr. Azmy',
-    videoUrl: 'https://englishpartner.com/wp-content/uploads/2026/01/Our-student-Mr.-Azmys-token-of-appreciation-and-love-for-his-trainer-_-English-Partner-_-Online-Ep.mp4',
+    title: 'Keerthika',
+    subtitle: 'Student Success Story',
+    videoUrl: '/videos/keerthika.mp4',
   },
   {
     title: 'Honest Feedback',
-    subtitle: 'Shanthi from Kanyakumari',
-    videoUrl: 'https://englishpartner.com/wp-content/uploads/2026/01/Honest-feedback-of-Shanthi-from-Kanyakumari-_-%E2%98%8E-9342789176-_-English-Partner-_-Spoken-English-Online-1.mp4',
+    subtitle: 'From a Confident Speaker',
+    videoUrl: '/videos/white-dress.mp4',
   },
   {
-    title: 'Corporate Training',
-    subtitle: 'Client Feedback Survey',
-    videoUrl: 'https://englishpartner.com/wp-content/uploads/2026/01/Voice-of-our-clients-at-Forar-Tech-_-Client-Feedback-Survey-Business-Communication-_-Englishpartner.mp4',
+    title: 'Class Interaction',
+    subtitle: 'Inside the Classroom',
+    videoUrl: '/videos/interaction.mp4',
   },
   {
-    title: 'Success Story Revealed',
-    subtitle: 'Speaking Confidently',
-    videoUrl: 'https://englishpartner.com/wp-content/uploads/2026/01/Student-Success-Stories-Revealed-_-English-Partner-_-Spoken-English-_-%E2%98%8E%EF%B8%8F-91-9944960485.mp4',
+    title: 'Direct Classroom',
+    subtitle: 'Coimbatore Branch',
+    videoUrl: '/videos/offline.mp4',
   }
 ]
 
 const stats = [
-  { value: '2,00,000+', numeric: '200000', label: 'Learners Trusted Us' },
-  { value: '#1',        numeric: null,      label: 'Most Reviewed in TN' },
-  { value: '7-Day',     numeric: '7',       label: 'Money-Back Guarantee' },
-  { value: 'Lifetime',  numeric: null,      label: 'Trainer Assistance' },
+  { value: '200,000+', numeric: '200000', label: 'Satisfied Students' },
+  { value: '100+',     numeric: '100',    label: 'Expert Trainers' },
+  { value: '24/7',     numeric: null,     label: 'Learning Support' },
+  { value: '1M+',      numeric: null,     label: 'Learning Community' },
 ]
 
 function VideoCard({ v }) {
@@ -80,9 +80,13 @@ function VideoCard({ v }) {
   const wrapperRef = useRef(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [loaded, setLoaded] = useState(false)
+  const [ready, setReady] = useState(false)
+  const wantsPlayRef = useRef(false)
 
+  // Load video only when card is near viewport (small margin on mobile)
   useEffect(() => {
     if (!wrapperRef.current) return
+    const isMobile = window.innerWidth <= 640
     const obs = new IntersectionObserver(
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) {
@@ -90,31 +94,48 @@ function VideoCard({ v }) {
           obs.disconnect()
         }
       },
-      { rootMargin: '200px' }
+      { rootMargin: isMobile ? '100px' : '400px' }
     )
     obs.observe(wrapperRef.current)
     return () => obs.disconnect()
   }, [])
 
-  const handleMouseEnter = () => {
-    if (videoRef.current) {
-      // Attempt to play the video with sound
-      videoRef.current.muted = false;
-      videoRef.current.play().then(() => {
-        setIsPlaying(true);
-      }).catch((error) => {
-        // Browsers block auto-playing unmuted audio if the user hasn't clicked anywhere on the webpage yet.
-        // If it blocks us, immediately fallback to playing the video muted.
-        if (videoRef.current) {
-          videoRef.current.muted = true;
-          videoRef.current.play().catch(() => {});
-          setIsPlaying(true);
-        }
-      });
+  // Mark ready once enough has buffered, and honor a queued play intent
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video || !loaded) return
+
+    const onCanPlay = () => {
+      setReady(true)
+      if (wantsPlayRef.current) startPlayback()
     }
+
+    video.addEventListener('canplay', onCanPlay)
+    if (video.readyState >= 3) onCanPlay()
+
+    return () => video.removeEventListener('canplay', onCanPlay)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loaded])
+
+  const startPlayback = () => {
+    const video = videoRef.current
+    if (!video) return
+    video.muted = false
+    video.play()
+      .then(() => setIsPlaying(true))
+      .catch(() => {
+        video.muted = true
+        video.play().then(() => setIsPlaying(true)).catch(() => {})
+      })
+  }
+
+  const handleMouseEnter = () => {
+    wantsPlayRef.current = true
+    if (ready) startPlayback()
   }
 
   const handleMouseLeave = () => {
+    wantsPlayRef.current = false
     if (videoRef.current) {
       videoRef.current.pause()
       setIsPlaying(false)
@@ -122,16 +143,14 @@ function VideoCard({ v }) {
   }
 
   const handleClick = () => {
-    if (videoRef.current) {
-      if (videoRef.current.paused) {
-        // Tapping counts as user interaction, so audio is guaranteed allowed here
-        videoRef.current.muted = false;
-        videoRef.current.play().catch(() => {})
-        setIsPlaying(true)
-      } else {
-        videoRef.current.pause()
-        setIsPlaying(false)
-      }
+    const video = videoRef.current
+    if (!video) return
+    if (video.paused) {
+      wantsPlayRef.current = true
+      if (ready) startPlayback()
+    } else {
+      video.pause()
+      setIsPlaying(false)
     }
   }
 
@@ -154,7 +173,7 @@ function VideoCard({ v }) {
           className="side-moving-video"
         />
         <div className="video-cinematic-overlay" />
-        
+
         {!isPlaying && (
           <div className="hover-play-indicator">
             <svg viewBox="0 0 24 24" fill="white" width="32" height="32">
@@ -162,7 +181,7 @@ function VideoCard({ v }) {
             </svg>
           </div>
         )}
-        
+
         <div className="video-card-info">
           <h3 className="video-card-title">{v.title}</h3>
           <p className="video-card-subtitle">{v.subtitle}</p>
@@ -174,10 +193,10 @@ function VideoCard({ v }) {
 
 function StatValue({ stat, inView }) {
   const count200k = useCountUp(200000, 2200, inView)
-  const count7 = useCountUp(7, 1200, inView)
+  const count100 = useCountUp(100, 1400, inView)
 
   if (stat.numeric === '200000') return formatIndian(count200k) + '+'
-  if (stat.numeric === '7') return count7 + '-Day'
+  if (stat.numeric === '100') return count100 + '+'
   return stat.value
 }
 
@@ -190,43 +209,57 @@ export default function Testimonials() {
   const startX = useRef(0)
   const scrollLeft = useRef(0)
 
-  // Native Infinite Auto-Scroll
+  // Native Infinite Auto-Scroll — only runs when section is visible
   useEffect(() => {
     let animationId;
     let lastTime = performance.now();
-    const speed = 0.05; // Adjust speed multiplier
+    let isVisible = false;
+    const speed = 0.05;
 
     const step = (time) => {
-      if (!containerRef.current) return;
-      
-      const deltaTime = time - lastTime;
-      lastTime = time;
-
-      // Only auto scroll if the user isn't hovering or dragging
-      if (!isHoveredRef.current && !isDraggingRef.current) {
-         containerRef.current.scrollLeft += speed * deltaTime;
+      if (!containerRef.current || !isVisible) {
+        animationId = requestAnimationFrame(step);
+        return;
       }
 
-      // We render the array 2 times; reset between halves for an infinite loop feel.
+      const deltaTime = Math.min(time - lastTime, 50); // cap delta to avoid jumps
+      lastTime = time;
+
+      if (!isHoveredRef.current && !isDraggingRef.current) {
+        containerRef.current.scrollLeft += speed * deltaTime;
+      }
+
       const scrollWidth = containerRef.current.scrollWidth;
       const singleChunkWidth = scrollWidth / 2;
 
       if (containerRef.current.scrollLeft >= singleChunkWidth) {
-         containerRef.current.scrollLeft -= singleChunkWidth;
+        containerRef.current.scrollLeft -= singleChunkWidth;
       } else if (containerRef.current.scrollLeft <= 0) {
-         containerRef.current.scrollLeft += singleChunkWidth;
+        containerRef.current.scrollLeft += singleChunkWidth;
       }
 
       animationId = requestAnimationFrame(step);
-    }
+    };
+
+    // Observe visibility to pause/resume the loop
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) lastTime = performance.now();
+      },
+      { threshold: 0 }
+    );
 
     if (containerRef.current) {
-        // Start at beginning of first chunk
-        containerRef.current.scrollLeft = 0;
+      containerRef.current.scrollLeft = 0;
+      obs.observe(containerRef.current);
     }
 
     animationId = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(animationId);
+    return () => {
+      cancelAnimationFrame(animationId);
+      obs.disconnect();
+    };
   }, []);
 
   // Mouse Drag Events

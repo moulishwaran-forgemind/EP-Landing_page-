@@ -7,9 +7,10 @@ const audiences = [
   {
     id: '01',
     title: 'Students',
-    desc: 'For college students looking to speak more confidently in discussions, presentations, and future interviews.',
-    image: '/assets/audience/student.png',
+    desc: 'Master the academic stage. Enhance your participation in seminars, excel in group projects, and build the foundational confidence required for your very first campus placement interviews.',
+    image: '/assets/Who is this Training for Images/Students.avif',
     color: 'linear-gradient(135deg, #60A5FA, #3B82F6)',
+    objectPosition: 'top',
     details: {
       headline: 'Built to help students speak up — in class and beyond.',
       paragraph:
@@ -26,9 +27,10 @@ const audiences = [
   {
     id: '02',
     title: 'Job Seekers',
-    desc: 'Improve communication skills needed for interviews, group discussions, and workplace readiness.',
-    image: '/assets/audience/jobseeker.png',
+    desc: 'Bridge the gap to employment. Refine your interview presence, navigate complex group discussions with ease, and develop the professional vocabulary needed to secure your ideal career role.',
+    image: '/assets/Who is this Training for Images/Job Seekers.avif',
     color: 'linear-gradient(135deg, #F472B6, #EC4899)',
+    objectPosition: 'top',
     details: {
       headline: 'Turn interviews from stressful to winnable.',
       paragraph:
@@ -45,9 +47,10 @@ const audiences = [
   {
     id: '03',
     title: 'Working Professionals',
-    desc: 'Develop stronger communication skills for meetings, presentations, and workplace discussions that influence career progression.',
-    image: '/assets/audience/professional.png',
+    desc: 'Command the corporate room. Elevate your influence in high-stakes meetings, deliver persuasive executive presentations, and articulate your ideas with the precision that drives significant career progression.',
+    image: '/assets/Who is this Training for Images/Working Professionals.jpg',
     color: 'linear-gradient(135deg, #34D399, #10B981)',
+    objectPosition: 'center',
     details: {
       headline: 'Communicate like the leader you want to become.',
       paragraph:
@@ -64,9 +67,10 @@ const audiences = [
   {
     id: '04',
     title: 'Aspiring Speakers',
-    desc: 'Anyone who wants to improve their communication in everyday conversations, social situations, and personal interactions.',
-    image: '/assets/audience/speaker.png',
+    desc: 'Transform your everyday voice. Perfect your communication for social settings, master the art of public speaking, and project a charismatic presence in every personal and professional interaction.',
+    image: '/assets/Who is this Training for Images/Aspiring Speakers.avif',
     color: 'linear-gradient(135deg, #A78BFA, #8B5CF6)',
+    objectPosition: 'top',
     details: {
       headline: 'Speak English the way you actually want to live it.',
       paragraph:
@@ -101,7 +105,7 @@ export default function WhoIsItFor() {
   return (
     <section className="audience-section" id="who-is-it-for">
       <div className="section-header">
-        <span className="section-label">Target Audience</span>
+        <span className="section-label">LEARNER FOCUS</span>
         <h2 className="section-title">
           Who is this <span className="title-accent">Training for?</span>
         </h2>
@@ -124,16 +128,21 @@ export default function WhoIsItFor() {
           >
             <div className="audience-number-watermark">{aud.id}</div>
 
-            <div className="audience-asset-container">
-              <div
-                className="glass-orb-container"
-                style={{ animationDuration: `${4 + i * 0.5}s` }}
-              >
-                <div className="glass-orb" style={{ background: aud.color }}>
-                  <div className="glass-orb-reflection" />
-                  <img className="orb-image" src={aud.image} alt={aud.title} loading="lazy" decoding="async" width="140" height="140" />
-                </div>
-              </div>
+            <div 
+              className="audience-asset-container"
+              style={{ 
+                background: aud.color,
+                animationDuration: `${4 + i * 0.5}s`
+              }}
+            >
+              <img 
+                className="audience-image-box" 
+                src={aud.image} 
+                alt={aud.title} 
+                loading="lazy" 
+                decoding="async" 
+                style={{ objectPosition: aud.objectPosition || 'center' }}
+              />
             </div>
 
             <div className="audience-content">

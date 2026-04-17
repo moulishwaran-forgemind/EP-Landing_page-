@@ -222,6 +222,40 @@
   color: var(--ep-red);
 }
 
+/* ── Mobile ── */
+@media (max-width: 640px) {
+  .contact-section {
+    padding: 60px 16px;
+  }
+
+  .cta-banner {
+    padding: 36px 20px;
+    border-radius: 20px;
+    margin-bottom: 36px;
+  }
+
+  .cta-btn {
+    padding: 14px 24px;
+    font-size: 14px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cta-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .contact-info {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .contact-card {
+    padding: 20px 16px;
+  }
+}
+
 /* ── Map Responsive ── */
 @media (max-width: 640px) {
   .contact-map {

@@ -1,5 +1,5 @@
-import { useRef } from 'react'
-import { useScroll, useTransform, useMotionValueEvent } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from 'framer-motion'
 import './BeforeAfter.css'
 
 const transformations = [
@@ -28,7 +28,122 @@ const transformations = [
 const N = transformations.length
 const SEG = 100 / N
 
-export default function BeforeAfter() {
+/* ══════════════════════════════════════════════════
+   Mobile: single box with auto-cycling transformations
+   ══════════════════════════════════════════════════ */
+
+function MobileBeforeAfter() {
+  const [active, setActive] = useState(0)
+  const sectionRef = useRef(null)
+  const [inView, setInView] = useState(false)
+
+  // Only auto-play when section is visible on screen
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.3 }
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
+  // Auto-cycle every 5s
+  useEffect(() => {
+    if (!inView) return
+    const timer = setInterval(() => {
+      setActive((prev) => (prev + 1) % N)
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [inView])
+
+  const card = transformations[active]
+
+  return (
+    <section className="before-after-section ba-mobile" ref={sectionRef}>
+      <div className="section-header">
+        <span className="section-label">Transformation</span>
+        <h2 className="section-title">
+          See the <span className="title-accent">difference</span>
+        </h2>
+        <p className="section-sub">
+          Watch every habit transform, one by one.
+        </p>
+      </div>
+
+      <div className="ba-m-box">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={active}
+            className="ba-m-slide-wrapper"
+            initial={{ opacity: 0, y: 20, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -16, scale: 0.97 }}
+            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {/* Column headers */}
+            <div className="ba-m-headers">
+              <span className="ba-m-header ba-m-header--before">
+                <span className="ba-m-hdot ba-m-hdot--before" />
+                Before
+              </span>
+              <span className="ba-m-header ba-m-header--after">
+                After
+                <span className="ba-m-hdot ba-m-hdot--after" />
+              </span>
+            </div>
+
+            {/* Slide content */}
+            <div className="ba-m-slide">
+              <div className="ba-m-side ba-m-before">
+                <div className="ba-m-icon ba-m-icon--before">
+                  <img src={card.before.img} alt={card.before.tag} width="96" height="96" loading="lazy" decoding="async" draggable="false" />
+                </div>
+                <span className="ba-m-tag ba-m-tag--before">{card.before.tag}</span>
+                <span className="ba-m-label ba-m-label--before">{card.before.text}</span>
+              </div>
+
+              <div className="ba-m-arrow">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </div>
+
+              <div className="ba-m-side ba-m-after">
+                <div className="ba-m-icon ba-m-icon--after">
+                  <img src={card.after.img} alt={card.after.tag} width="96" height="96" loading="lazy" decoding="async" draggable="false" />
+                </div>
+                <span className="ba-m-tag ba-m-tag--after">{card.after.tag}</span>
+                <span className="ba-m-label ba-m-label--after">{card.after.text}</span>
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Progress dots */}
+        <div className="ba-m-dots">
+          {transformations.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              className={`ba-m-dot ${i === active ? 'ba-m-dot--active' : ''}`}
+              onClick={() => setActive(i)}
+              aria-label={`Transformation ${i + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ══════════════════════════════════════════════════
+   Desktop: scroll-pinned animation (unchanged)
+   ══════════════════════════════════════════════════ */
+
+function DesktopBeforeAfter() {
   const trackRef = useRef(null)
   const headersRef = useRef(null)
   const afterBgRef = useRef(null)
@@ -45,7 +160,6 @@ export default function BeforeAfter() {
 
   const slider = useTransform(scrollYProgress, [0.08, 0.92], [0, 100], { clamp: true })
 
-  // Drive all clip-paths / styles directly from the MotionValue — no React re-renders
   useMotionValueEvent(slider, 'change', (v) => {
     if (afterBgRef.current) afterBgRef.current.style.clipPath = `inset(0 0 0 ${v}%)`
     if (sliderBarRef.current) sliderBarRef.current.style.left = `${v}%`
@@ -178,4 +292,24 @@ export default function BeforeAfter() {
       </div>
     </section>
   )
+}
+
+/* ══════════════════════════════════════════════════
+   Entry: pick layout based on viewport
+   ══════════════════════════════════════════════════ */
+
+export default function BeforeAfter() {
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' && window.innerWidth <= 640
+  )
+
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 640px)')
+    setIsMobile(mql.matches)
+    const handler = (e) => setIsMobile(e.matches)
+    mql.addEventListener('change', handler)
+    return () => mql.removeEventListener('change', handler)
+  }, [])
+
+  return isMobile ? <MobileBeforeAfter /> : <DesktopBeforeAfter />
 }

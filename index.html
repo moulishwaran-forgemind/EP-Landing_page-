@@ -25,27 +25,13 @@
     <!-- Preload the first hero banner so it's fetched in parallel with JS -->
     <link rel="preload" as="image" href="/assets/banners/Banner3.webp" fetchpriority="high" />
 
-    <!-- Inline critical skeleton CSS so the hero paints instantly before React hydrates -->
     <style>
-      html, body { margin: 0; padding: 0; background: #ffffff; font-family: 'Outfit', system-ui, -apple-system, Segoe UI, Roboto, sans-serif; color: #0f172a; }
+      html, body { margin: 0; padding: 0; background: #ffffff; }
       #root { min-height: 100vh; }
-      .ep-skeleton { min-height: 100vh; padding: 120px 20px 40px; display: flex; flex-direction: column; align-items: center; text-align: center; }
-      .ep-skeleton h1 { font-size: clamp(36px, 6vw, 64px); font-weight: 900; line-height: 1.1; margin: 24px 0 16px; }
-      .ep-skeleton h1 span.r { color: #C8102E; }
-      .ep-skeleton h1 span.b { color: #1B2E6B; }
-      .ep-skeleton p { font-size: 17px; color: #475569; max-width: 640px; line-height: 1.55; margin: 0; }
-      .ep-skeleton .badge { display: inline-block; background: #F3F4F6; color: #0f172a; padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 600; }
     </style>
   </head>
   <body>
-    <div id="root">
-      <!-- Static skeleton so FCP/LCP paint immediately; replaced on React hydration -->
-      <div class="ep-skeleton">
-        <span class="badge">🎓 Face-to-Face Classroom Training · Coimbatore</span>
-        <h1>Speak with <span class="r">Confidence.</span><br/>Grow with <span class="b">English.</span></h1>
-        <p>Direct spoken English classes in Coimbatore — combining 1-to-1 trainer personalised training and group learning to help you communicate with real confidence.</p>
-      </div>
-    </div>
+    <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

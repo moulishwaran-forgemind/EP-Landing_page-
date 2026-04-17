@@ -84,3 +84,24 @@ body::-webkit-scrollbar {
   color: var(--text-muted);
   line-height: 1.7;
 }
+
+/* ── Mobile section headers ── */
+@media (max-width: 640px) {
+  .section-header {
+    margin-bottom: 36px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    margin-bottom: 12px;
+  }
+
+  .section-sub {
+    font-size: 14px;
+  }
+}

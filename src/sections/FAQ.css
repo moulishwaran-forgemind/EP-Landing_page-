@@ -60,3 +60,25 @@
   color: var(--text-muted);
   line-height: 1.8;
 }
+
+/* ── Mobile ── */
+@media (max-width: 640px) {
+  .faq-section {
+    padding: 60px 16px;
+  }
+
+  .faq-question {
+    padding: 18px 16px;
+    font-size: 15px;
+    gap: 12px;
+  }
+
+  .faq-answer p {
+    padding: 0 16px 18px;
+    font-size: 13px;
+  }
+
+  .faq-icon {
+    font-size: 20px;
+  }
+}

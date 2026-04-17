@@ -16,7 +16,6 @@ export default function Footer() {
         </div>
 
         <div className="footer-links">
-          <a href="#features">Why Direct?</a>
           <a href="#courses">Who It's For</a>
           <a href="#testimonials">Reviews</a>
           <a href="#faq">FAQ</a>

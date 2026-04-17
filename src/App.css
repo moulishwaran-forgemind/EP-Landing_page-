@@ -1,12 +1,6 @@
 .site-shell {
-  opacity: 0;
-  transition: opacity 0.5s ease;
   min-height: 100vh;
   background: var(--bg-primary);
-}
-
-.site-shell.visible {
-  opacity: 1;
 }
 
 /* ── GPU-friendly hero entrance (runs on compositor, doesn't block hydration) ── */

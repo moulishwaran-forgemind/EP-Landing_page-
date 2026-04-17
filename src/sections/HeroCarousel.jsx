@@ -19,7 +19,7 @@ const slides = [
     tag: '1-to-1 Personalised Training',
     heading: 'Physical Presence Demands Your Full Attention',
     description:
-      'One-to-one trainer guidance helps you focus on speaking clearly, correcting mistakes, and improving step by step.',
+      'One-on-one mentorship provides the focus you deserve, offering real-time correction and actionable feedback. From immediate refinement to gradual mastery, we ensure your voice is heard with absolute clarity.',
     cta: 'Book a Free Demo',
     image: '/assets/banners/Banner.webp',
     accent: 'blue',

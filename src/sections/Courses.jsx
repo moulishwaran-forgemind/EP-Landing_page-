@@ -3,7 +3,7 @@ import './Courses.css'
 
 const trainings = [
   {
-    image: '/assets/Training Methods/personal.jpg',
+    image: '/assets/Three ways to build fluency/1-to-1 Personalised Training.jpg',
     accent: 'red',
     name: '1-to-1 Personalised Training',
     tagline: 'Focused. Personal. Effective.',
@@ -17,7 +17,7 @@ const trainings = [
     ],
   },
   {
-    image: '/assets/Training Methods/group.avif',
+    image: '/assets/Three ways to build fluency/Group Learning.jpg',
     accent: 'blue',
     name: 'Group Learning',
     tagline: 'Practice. Collaborate. Grow.',
@@ -31,7 +31,7 @@ const trainings = [
     ],
   },
   {
-    image: '/assets/Training Methods/speaking.jpg',
+    image: '/assets/Three ways to build fluency/Real-Life Speaking.jpg',
     accent: 'purple',
     name: 'Real-Life Speaking',
     tagline: 'Express. Present. Lead.',
@@ -73,7 +73,7 @@ export default function Courses() {
             <div className={`card-glow card-glow--${t.accent}`} />
 
             <div className="card-image-wrap">
-              <img className="card-image" src={t.image} alt={t.name} />
+              <img className="card-image" src={t.image} alt={t.name} loading="lazy" decoding="async" />
             </div>
 
             <h3 className="course-name">{t.name}</h3>

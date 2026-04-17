@@ -32,3 +32,6 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
+
+# Large media (host on CDN instead)
+public/videos/
